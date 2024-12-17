@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaLinkedin, FaGithub, FaEnvelope, FaBriefcase, FaGraduationCap, FaCode } from 'react-icons/fa';
+import { FaLinkedin, FaGithub, FaEnvelope, FaBriefcase, FaGraduationCap, FaCode, FaJs, FaHtml5 } from 'react-icons/fa';
 import {  FaPhone, FaMapMarkerAlt } from 'react-icons/fa';
-
+import { FiMenu, FiX } from 'react-icons/fi';
 const Portfolio = () => {
   const [activeSection, setActiveSection] = useState('home');
 
@@ -20,7 +20,7 @@ const Portfolio = () => {
 
   return (
     <div className="bg-gray-100 min-h-screen font-sans">
-      <header className="fixed w-full bg-white shadow-md z-50">
+     {/*  <header className="fixed w-full bg-white shadow-md z-50">
         <nav className="container mx-auto px-6 py-3">
           <motion.ul 
             className="flex justify-center space-x-6"
@@ -43,7 +43,8 @@ const Portfolio = () => {
           </motion.ul>
         </nav>
       </header>
-
+ */}
+ <Header sections={sections} activeSection={activeSection} setActiveSection={setActiveSection}/>
       <main className="pt-12">
         <AnimatePresence mode="wait">
           {activeSection === 'home' && <HeroSection key="home" />}
@@ -59,12 +60,91 @@ const Portfolio = () => {
   );
 };
 
+const Header = ({ sections, activeSection, setActiveSection }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const navVariants = {
+    hidden: { opacity: 0, y: -20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.3 } },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1, transition: { duration: 0.3 } },
+  };
+
+  return (
+    <header className="fixed w-full bg-white shadow-md z-50">
+      <nav className="container mx-auto px-6 py-3 flex justify-between items-center">
+        <div className="text-xl font-semibold poppin">Kuldeep Khelwar</div>
+
+        {/* Desktop Menu */}
+        <motion.ul 
+          className="hidden md:flex justify-center space-x-6"
+          variants={navVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          {sections.map((section) => (
+            <motion.li key={section} variants={itemVariants}>
+              <button
+                onClick={() => setActiveSection(section)}
+                className={`text-lg font-medium ${
+                  activeSection === section ? 'text-blue-600' : 'text-gray-600 hover:text-blue-600'
+                } transition-colors duration-300`}
+              >
+                {section.charAt(0).toUpperCase() + section.slice(1)}
+              </button>
+            </motion.li>
+          ))}
+        </motion.ul>
+
+        {/* Mobile Menu Toggle */}
+        <button
+          className="md:hidden text-2xl text-gray-600"
+          onClick={() => setIsOpen(!isOpen)}
+          aria-label="Toggle menu"
+        >
+          {isOpen ? <FiX /> : <FiMenu />}
+        </button>
+
+        {/* Mobile Menu */}
+        {isOpen && (
+          <motion.div
+            className="fixed inset-0 top-12 h-64 bg-white z-40 flex flex-col items-center space-y-4 pt-4 md:hidden"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.3 }}
+          >
+            {sections.map((section) => (
+              <motion.button
+                key={section}
+                onClick={() => {
+                  setActiveSection(section);
+                  setIsOpen(false);
+                }}
+                className={`text-lg font-medium ${
+                  activeSection === section ? 'text-blue-600' : 'text-gray-600 hover:text-blue-600'
+                } transition-colors duration-300`}
+                variants={itemVariants}
+              >
+                {section.charAt(0).toUpperCase() + section.slice(1)}
+              </motion.button>
+            ))}
+          </motion.div>
+        )}
+      </nav>
+    </header>
+  );
+};
+
 
 const HeroSection = () => {
   const socialLinks = [
     { icon: <FaLinkedin />, url: 'https://linkedin.com' },
     { icon: <FaGithub />, url: 'https://github.com' },
-    { icon: <FaEnvelope />, url: 'mailto:bhumika@example.com' },
+    { icon: <FaEnvelope />, url: '' },
   ];
 
   return (
@@ -81,13 +161,13 @@ const HeroSection = () => {
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
       >
-        {[...Array(20)].map((_, i) => (
+        {[...Array(10)].map((_, i) => (
           <motion.div
             key={i}
             className="absolute rounded-full bg-white opacity-10"
             style={{
-              width: Math.random() * 300 + 50,
-              height: Math.random() * 300 + 50,
+              width: Math.random() * 150 +50,
+              height: Math.random() * 150 +50,
               top: `${Math.random() * 100}%`,
               left: `${Math.random() * 100}%`,
             }}
@@ -116,7 +196,7 @@ const HeroSection = () => {
             animate={{ x: 0, opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
-            <img src="./ic6.avif" className='h-72 w-72 rounded-full' alt="" />
+            <img src="./kul2.png" className='h-72 mt-8 w-72 rounded-full' alt="" />
             <svg
               className="w-full hidden h-auto"
               viewBox="0 0 500 500"
@@ -164,7 +244,7 @@ const HeroSection = () => {
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              Bhumika Somani
+              Kuldeep Khelwar
             </motion.h1>
             <motion.p
               className="text-xl md:text-2xl mb-8"
@@ -172,7 +252,7 @@ const HeroSection = () => {
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.4 }}
             >
-              MBA Graduate | Aspiring Business Analyst
+              B.com + Computer Graduate | Aspiring Wordpress Developer
             </motion.p>
             <motion.div
               className="flex space-x-4 mb-8"
@@ -203,7 +283,7 @@ const HeroSection = () => {
               <p
                 onClick={()=>{ console.log('contact');
                 }}
-                className="bg-white cursor-pointer text-indigo-600 px-8 py-3 rounded-full font-medium hover:bg-indigo-100 transition-colors duration-300 inline-block"
+                className="bg-white cursor-pointer text-indigo-600 px-8 py-3 mb-6 rounded-full font-medium hover:bg-indigo-100 transition-colors duration-300 inline-block"
               >
                 Get in Touch
               </p>
@@ -237,8 +317,8 @@ const AboutSection = () => (
           initial={{ x: -100, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 0.8 }}
-          src="ic2.avif"
-          alt="John Doe"
+          src="./kul11.png"
+          alt="Kuldeep Khelwar"
           className="rounded-full w-64 h-64 object-cover mb-8 md:mb-0 md:mr-12"
         />
         <motion.div
@@ -248,10 +328,10 @@ const AboutSection = () => (
           className="max-w-2xl"
         >
           <p className="text-lg mb-6">
-            As a recent MBA graduate with a passion for data-driven decision making, I am eager to apply my analytical skills and business acumen to drive organizational success. My academic background, combined with hands-on experience in project management and financial analysis, has prepared me to tackle complex business challenges and contribute meaningfully to a dynamic team.
-          </p>
-          <p className="text-lg">
-            I am particularly interested in leveraging technology and data analytics to optimize business processes and uncover valuable insights. My goal is to join a forward-thinking company where I can continue to grow professionally while making a significant impact on business strategy and operations.
+          As a WordPress developer with a Bachelor’s degree in Commerce, I combine technical expertise with a solid understanding of business needs. My skills include crafting custom themes, optimizing site performance, and ensuring secure, scalable web solutions. Currently, I am working in a professional role and seeking collaborative opportunities to contribute to innovative digital projects.
+         
+         </p> <p className="text-lg">
+          I am passionate about staying updated with the latest trends in web development and applying creative solutions to complex challenges. My focus is on delivering high-quality, functional websites that resonate with users and achieve client goals. Whether it’s building a portfolio site, optimizing an e-commerce platform, or developing a corporate website, I bring dedication and a results-driven approach to every project.          
           </p>
         </motion.div>
       </div>
@@ -261,12 +341,14 @@ const AboutSection = () => (
 
 const SkillsSection = () => {
   const skills = [
-    { name: 'Data Analysis', icon: <FaCode />, color: 'bg-blue-500' },
-    { name: 'Financial Modeling', icon: <FaBriefcase />, color: 'bg-green-500' },
-    { name: 'Project Management', icon: <FaGraduationCap />, color: 'bg-yellow-500' },
-    { name: 'Strategic Planning', icon: <FaCode />, color: 'bg-red-500' },
-    { name: 'Market Research', icon: <FaBriefcase />, color: 'bg-purple-500' },
-    { name: 'Business Intelligence', icon: <FaGraduationCap />, color: 'bg-indigo-500' },
+    { name: 'Responsive Web Design', icon: <FaCode />, color: 'bg-blue-500' },
+    { name: 'Web Fundamentals', icon: <FaBriefcase />, color: 'bg-green-500' },
+    { name: 'WordPress Theme Development', icon: <FaGraduationCap />, color: 'bg-yellow-500' },
+    { name: 'WordPress Plugin Development', icon: <FaCode />, color: 'bg-red-500' },
+    { name: 'WooCommerce Development', icon: <FaBriefcase />, color: 'bg-purple-500' },
+    { name: 'Theme Customization', icon: <FaGraduationCap />, color: 'bg-indigo-500' },
+    { name: 'HTML5 & CSS3', icon: <FaHtml5 />, color: 'bg-yellow-500' },
+    { name: 'JavaScript (ES6+)', icon: <FaJs />, color: 'bg-teal-500' },
   ];
 
   return (
@@ -308,23 +390,23 @@ const SkillsSection = () => {
 const EducationSection = () => {
   const experiences = [
     {
-      title: 'MBA',
-      organization: 'Harvard Business School',
-      date: '2020 - 2022',
-      description: 'Focused on Finance and Business Analytics',
+      title: 'Bachelor of Commerce + Computer ',
+      organization: 'DAVV University, Indore',
+      date: '2021 - 2025',
+      description: 'Focused on Wordpress Development',
     },
     {
-      title: 'Financial Analyst Intern',
-      organization: 'Goldman Sachs',
-      date: 'Summer 2021',
-      description: 'Worked on financial modeling and market analysis projects',
+      title: 'WordPress Developer ',
+      organization: 'Indifuture technologies Pvt. Ltd.',
+      date: '2023 - Present',
+      description: 'Worked on WordPress Web Projects, Currantly working on Easyport Logistics Website.',
     },
-    {
+    /* {
       title: 'Bachelor of Science in Economics',
       organization: 'University of Pennsylvania',
       date: '2016 - 2020',
       description: 'Minor in Computer Science',
-    },
+    }, */
   ];
 
   return (
@@ -369,8 +451,8 @@ const EducationSection = () => {
 
 const ContactSection = () => {
   const contactInfo = [
-    { icon: <FaEnvelope />, text: 'bhumika@example.com' },
-    { icon: <FaPhone />, text: '+1 (555) 123-4567' },
+    { icon: <FaEnvelope />, text: 'kuldeepkhelwar43@gmail.com' },
+    { icon: <FaPhone />, text: '+91 97540 30206' },
     { icon: <FaMapMarkerAlt />, text: 'Indore, India' },
   ];
 
@@ -490,7 +572,7 @@ const Footer = () => (
     <div className="container mx-auto px-6">
       <div className="flex flex-col md:flex-row justify-between items-center">
         <div className="mb-4 md:mb-0">
-          <p>&copy; 2023 Designed and Developed by  <a href='https://aaminspatel.github.io/portfolio1/' target='_blank'>Aamin Patel</a> All rights reserved.</p>
+          <p>&copy; 2024 Designed and Developed by  <a href='https://aaminspatel.github.io/portfolio1/' target='_blank'>Aamin Patel and </a> All rights reserved.</p>
         </div>
         <div className="flex space-x-4">
           <a href="#" className="hover:text-blue-400 transition-colors duration-300">

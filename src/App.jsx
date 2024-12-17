@@ -1,12 +1,5 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import Header from './components/Header';
-import Hero from './components/Hero';
-import About from './components/About';
-import Skills from './components/Skills';
-import Education from './components/Education';
-import Contact from './components/Contact';
-import Footer from './components/Footer';
+
 import Portfolio from './portfolio';
 
 function App() {
